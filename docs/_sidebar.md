@@ -1,9 +1,10 @@
 <!-- docs/_sidebar.md -->
-
-- [组队学习笔记](/)
-- [目录](guide)
-
-- [2023.2期：图机器学习](2023.2图机器学习/)
-    - [概要](2023.2图机器学习/chapter0/chapter0)
-    - [图的基本表示](2023.2图机器学习/chapter1/chapter1)
-    - [](2023.2图机器学习/chapter2/chapter2)
+- [目录](README.md)
+    - [2023.2期：图机器学习]
+        - [chapter01 图的基本概念](2023.2图机器学习/chapter1.md)
+        - [chapter02 图的基本表示](2023.2图机器学习/chapter2.md)
+        - [chapter03 NetworkX工具包实战](2023.2图机器学习/chapter3.md)
+        - [chapter04 图嵌入表示](2023.2图机器学习/chapter4.md)
+        - [chapter05 DeepWalk、Node2Vec论文精读](2023.2图机器学习/chapter5.md)
+        - [chapter06 PageRank](2023.2图机器学习/chapter6.md)
+        
