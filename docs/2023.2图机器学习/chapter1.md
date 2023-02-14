@@ -1,4 +1,4 @@
-# Chapter01 图的基本概念
+# Chapter01 图机器学习导论
 ## 1.1 图论 (Graph Theory)
 - **图论**是数学的一个分支。它以图作为研究对象。
 - **图**(graph) $G = (V, E)$ 是一个二元组 $(V, E)$ 使得 $E{\in}[V]^2$，所以 $E$ 的元素是 $V$ 的2-元子集。我们总是默认 $V{\cap}E=\varnothing$。
@@ -32,3 +32,56 @@ $$a_{ij}:=\left\{
     1,{\quad}v_iv_j{\in}E,\\
     0,{\quad}\rm{otherwise}\\
 \end{array} \right.$$
+
+## 1.2 图数据挖掘常见任务介绍
+### 1.2.1 常见任务
+- 路径选择问题<br>
+例如：地图导航选择最短路径
+- 度中心性评价<br>
+例如：用PageRank算法对搜索结果排序
+- 社群检测<br>
+例如：对网络中虚假、伪造信息的监测
+-连接预测<br>
+例如：推荐系统
+- 节点相似度<br>
+例如：分析不同年代历史人物相似性
+- 图嵌入<br>
+例如：NodetoVec
+- 图生成<br>
+例如：设计新的药物分子
+- 图的演化<br>
+例如：粒子模拟
+ 
+### 1.2.2 典型方法
+- 将实际问题转化为图论语言，运用数学方法将其转化为矩阵和向量信息，然后训练图神经网络来解决相关问题。
+- 关键在于要找到一个好的图嵌入，把每个节点信息转化为低维向量并尽量减少信息的流失。
+- 然后构造高效高质量的图神经网络来预测结果。
+
+### 1.2.3 应用场景举例
+**AlphaFold预测蛋白质空间结构**
+- 传统方法：在实验室中使用冷冻电镜、核磁共振等技术手动的测定蛋白质的空间结构。要花费大量的人力物力财力以及时间成本。
+- 人工智能辅助：输入多肽链的一级结构就可以预测出蛋白质的三维结构。<br>
+- AlphaFold团队目前已经预测了人类约98.5%的蛋白质结构，其在GDT测试中的分数也远超其他模型，置信度非常高。
+
+
+## 1.3 图神经网络常见模型和编程工具
+### 1.3.1 图神经网络常见模型
+- 传统模型：Graphlets， Graph Kernels
+- 图嵌入模型：DeepWalk， Node2Vec
+- 图神经网络：GCN， GraphSAGE， GAT， Theory of GNNs
+- 知识图谱和推理：TransE， BetaE
+- 深度图生成模型：GraphRNN
+- 生物医学、AI for Science、 产业界的应用
+
+### 1.3.2 编程工具及可视化引擎
+- PyG（PyTorch Geometric）: https://www.pyg.org/
+- SNAP.PY: https://snap.stanford.edu/snappy/
+- NetworkX: https://networkx.org/
+- DGL(Deep Graph Library): https://www.dgl.ai/
+- AntV可视化(g6引擎): https://g6.antv.antgroup.com/zh
+- Echarts可视化(GL关系图): https://echarts.apache.org/examples/zh/index.html#chart-type-graphGL
+- GraphXR可视化: https://www.kineviz.com/graphxr
+- Neo4j(图数据库): https://neo4j.com/
+
+## 1.4 本章总结
+本章主要学习图论的基础概念，图机器学习主要解决哪些实际问题，以及常见的技术手段及方法。
