@@ -391,7 +391,7 @@ plt.show()
 ```
 
 ## 3.9 本章总结
-本章主要学习NetworkX工具包的使用，包括
+本章主要学习NetworkX工具包的使用，包括：
 - 运用NetworkX和matplotlib进行画图
 - nx.draw可视化方案
 - PageRank节点重要度的算法和代码演示
