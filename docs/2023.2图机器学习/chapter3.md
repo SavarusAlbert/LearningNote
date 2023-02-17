@@ -331,7 +331,7 @@ nx.common_neighbors(G, m, n)                        # m和n节点的共同邻点
 nx.jaccard_coefficient(G, ebunch=None)              # 计算ebunch中所有节点对的jaccard系数(交并比)
 nx.adamic_adar_index(G, ebunch=None)                # 计算ebunch中所有节点对的Adamic-Adar指数(共同邻点的连接数倒数)
 ```
-- Katz Index(节点u到节点v，路径长度为k的路径个数)
+- Katz Index(节点u到节点v，路径长度为k的路径个数)：
 $$S=\sum\limits_{i=1}\limits^{\infty}\beta^i(\mathcal{A}^i)=(I-\beta\mathcal{A})^{-1}-I$$
 ```python
 import networkx as nx
@@ -365,7 +365,7 @@ for sub_nodes in itertools.combinations(G.nodes(), len(target.nodes())):  # 遍�
         num += 1
         print(subg.edges())
 ```
-- 拉普拉斯矩阵特征值分解</br>
+- 拉普拉斯矩阵特征值分解：</br>
 1.拉普拉斯矩阵 $L$ (Laplacian Matrix)：
 $$L=D-A$$
 $D$ 为节点degree对角矩阵，$A$ 为邻接矩阵</br>
@@ -389,3 +389,10 @@ plt.xlabel('Eigenvalue', fontsize=25)
 plt.tick_params(labelsize=20)                       # 设置坐标文字大小
 plt.show()
 ```
+
+## 3.9 本章总结
+本章主要学习NetworkX工具包的使用，包括
+- 运用NetworkX和matplotlib进行画图
+- nx.draw可视化方案
+- PageRank节点重要度的算法和代码演示
+- 特征工程API的学习
