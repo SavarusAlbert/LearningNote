@@ -12,6 +12,7 @@ import pandas as pd
 import random
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 ```
 - 设置matplotlib中文字体(windows系统)
 ```python
@@ -240,5 +241,151 @@ plt.show()
 nx.draw_networkx_nodes(G, pos)                      # 绘制节点
 nx.draw_networkx_edges(G, pos)                      # 绘制连接
 ```
+- 可视化函数模板
+```python
+def draw(G, pos, measures, measure_name):  
+    nodes = nx.draw_networkx_nodes(G, pos, node_size=250, cmap=plt.cm.plasma, 
+                                   node_color=list(measures.values()),
+                                   nodelist=measures.keys())
+    nodes.set_norm(mcolors.SymLogNorm(linthresh=0.01, linscale=1, base=10))
+    # labels = nx.draw_networkx_labels(G, pos)
+    edges = nx.draw_networkx_edges(G, pos)
 
-## 3.7 
+    # plt.figure(figsize=(10,8))
+    plt.title(measure_name)
+    plt.colorbar(nodes)
+    plt.axis('off')
+    plt.show()
+```
+
+## 3.7 PageRank节点重要度
+- pagerank函数计算有向图的节点重要度，无向图会自动转为双向图再进行计算</br>
+返回一个字典，包含节点和节点重要度
+```python
+G = nx.star_graph(7)
+pagerank = nx.pagerank(                             # 迭代的计算PR值
+  G,                                                # 有向图，无向图会转为双向图
+  alpha=0.85,                                       # 浮点型，阻尼参数，默认0.85
+  personalization=None,                             # 字典形式，自定义节点的PR值分配，默认为均匀分配
+  max_iter=100,                                     # 最大迭代次数
+  tol=1e-06,                                        # 迭代阈值，停止迭代的差值
+  nstart=None,                                      # 自定义PR值初值
+  weight='weight',                                  # 权重
+  dangling=None,
+  )
+```
+### 幂迭代算法
+- 1.对于一个有向图，每个节点的PR值等于其邻点的PR值加权求和：
+$${\rm{PR}}_u=\sum\limits_{v{\in}N(u)}\lambda_{vu}{\rm{PR}}_v$$
+- 2.假设当用户停留在某节点时，跳转到其他节点的概率相同，那么平均分配给每个outlink相同的权重，用权重矩阵 $M$ (Stochastic adjacency matrix)来表示所有节点的权重图。
+- 3.为每个节点设定初值构建pagerank向量 $r=(r_1,\cdots)$，$\sum\limits_{i}r_i=1$，左乘权重矩阵则会得到一次迭代的PR值，多次迭代收敛到最终结果($t$为迭代次数)：
+$$r_{\rm{ter}} = M^{t}r$$
+### 随机游走算法
+- 假设从一个节点遍历图，引入阻尼系数，以$\alpha$的概率沿有向边游走，以$1-\alpha$的概率随机游走到任意节点，得到所有节点随机游走的概率分布。
+- 最终如果收敛，那么收敛的概率分布结果就是pagerank值，算法数学表达式与幂迭代相同，同样是求权重矩阵 $M$ 的特征向量。
+### 马尔科夫链算法
+- 每个节点是一个状态，节点之间的连接对应状态转移，应用求解马尔科夫链的方法也可以同样求解。
+### Pagerank节点重要度算法
+- 在实际求解网页pagerank时，随机游走算法需要模拟大量的游走，马尔科夫链方法同样需要求解大量的转移矩阵，而采样幂迭代方法则只需要计算机最擅长的矩阵乘法。
+- 幂迭代终止点问题：实际应用中，有一些网页不指向任何网页，会导致迭代收敛到0
+- 幂迭代陷阱问题：如果一个网页不存在指向其他网页的链接，但存在指向自己的链接，也会导致迭代问题
+- 幂迭代算法改进：引入基尼系数$\alpha$，每个节点有$1-\alpha$的概率跳转到其他任意节点：
+$$r^\prime={\alpha}Mr+(1-\alpha)\left[\frac{1}{N}\right]_{N{\times}N}$$
+$N$ 为节点总数
+
+## 3.8 特征工程相关API
+- 基础API
+```python
+nx.connected_components(G)                          # 连通子域
+nx.radius(G)                                        # 半径
+nx.diameter(G)                                      # 直径
+nx.eccentricity(G)                                  # 偏心度：每个节点到图中其它节点的最远距离
+nx.center(G)                                        # 中心节点，偏心度与半径相等的节点
+nx.periphery(G)                                     # 外围节点，偏心度与直径相等的节点
+nx.single_source_shortest_path_length(G, node)      # node节点所有通路中最短路径长度
+nx.triangles(G)                                     # 经过节点的三角形个数，返回一个字典
+```
+- 图密度(Graph density)(n为节点个数，m为连接个数)：</br>
+无向图
+$$density=\frac{2m}{n(n-1)}$$
+有向图
+$$density=\frac{m}{n(n-1)}$$
+无连接图的density为0，全连接图的density为1，Multigraph（多重连接图）和带self loop图的density可能大于1
+```python
+nx.density(G)                                       # 图密度
+```
+- 特征工程常用API
+```python
+nx.degree_centrality(G)                             # 无向图 Degree Centrality
+nx.in_degree_centrality(G)                          # 有向图入度 Indegree Centrality
+nx.out_degree_centrality(G)                         # 有向图出度 Outdegree Centrality
+nx.eigenvector_centrality(G)                        # 无向图 Eigenvector Centrality
+nx.eigenvector_centrality_numpy(G)                  # 有向图 Eigenvector Centrality
+nx.betweenness_centrality(G)                        # Betweenness Centrality 必经之地
+nx.closeness_centrality(G)                          # Closeness Centrality 去哪儿都近
+nx.pagerank(G, alpha=0.85)                          # PageRank
+nx.katz_centrality(G, alpha=0.1, beta=1.0)          # Katz Centrality
+nx.clustering(G)                                    # Clustering Coefficient 社群系数
+nx.bridges(G)                                       # 如果某个连接断掉，会使连通域个数增加，则该连接是bridge
+nx.common_neighbors(G, m, n)                        # m和n节点的共同邻点集
+nx.jaccard_coefficient(G, ebunch=None)              # 计算ebunch中所有节点对的jaccard系数(交并比)
+nx.adamic_adar_index(G, ebunch=None)                # 计算ebunch中所有节点对的Adamic-Adar指数(共同邻点的连接数倒数)
+```
+- Katz Index(节点u到节点v，路径长度为k的路径个数)
+$$S=\sum\limits_{i=1}\limits^{\infty}\beta^i(\mathcal{A}^i)=(I-\beta\mathcal{A})^{-1}-I$$
+```python
+import networkx as nx
+import numpy as np
+from numpy.linalg import inv
+G = nx.karate_club_graph()
+# 计算主特征向量
+L = nx.normalized_laplacian_matrix(G)
+e = np.linalg.eigvals(L.A)
+# 折减系数(最大特征值 max(e))
+beta = 1/max(e)
+# 创建单位矩阵
+I = np.identity(len(G.nodes))
+# 计算 Katz Index
+S = inv(I - nx.to_numpy_array(G)*beta) - I
+```
+- 计算全图Graphlet个数
+```python
+import networkx as nx
+import matplotlib.pyplot as plt
+%matplotlib inline
+import itertools
+G = nx.karate_club_graph()
+# 指定Graphlet为三个节点的完全图
+target = nx.complete_graph(3)
+# 计算Graphlet个数
+num = 0
+for sub_nodes in itertools.combinations(G.nodes(), len(target.nodes())):  # 遍历全图中，符合graphlet节点个数的所有节点组合
+    subg = G.subgraph(sub_nodes)                                          # 从全图中抽取出子图
+    if nx.is_connected(subg) and nx.is_isomorphic(subg, target):          # 如果子图是完整连通域，并且符合graphlet特征，输出原图节点编号
+        num += 1
+        print(subg.edges())
+```
+- 拉普拉斯矩阵特征值分解</br>
+1.拉普拉斯矩阵 $L$ (Laplacian Matrix)：
+$$L=D-A$$
+$D$ 为节点degree对角矩阵，$A$ 为邻接矩阵</br>
+2.归一化拉普拉斯矩阵(Normalized Laplacian Matrix)：
+$$L_n = D^{-\frac{1}{2}}LD^{-\frac{1}{2}}$$
+```python
+L = nx.laplacian_matrix(G)                          # 拉普拉斯矩阵
+A = nx.adjacency_matrix(G)                          # 邻接矩阵
+D = L + A                                           # 节点degree对角矩阵
+L_n = nx.normalized_laplacian_matrix(G)             # 归一化拉普拉斯矩阵
+# 特征值分解
+import numpy.linalg                                 # 线性代数包
+e = np.linalg.eigvals(L_n.A)                        # 特征值
+# 特征值分布直方图模板
+plt.figure(figsize=(12,8))
+plt.hist(e, bins=100)
+plt.xlim(0, 2)                                      # eigenvalues between 0 and 2
+plt.title('Eigenvalue Histogram', fontsize=20)
+plt.ylabel('Frequency', fontsize=25)
+plt.xlabel('Eigenvalue', fontsize=25)
+plt.tick_params(labelsize=20)                       # 设置坐标文字大小
+plt.show()
+```
