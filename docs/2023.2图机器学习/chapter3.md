@@ -1,4 +1,4 @@
-# NetworkX代码实战
+# Chapter03 NetworkX代码实战
 ## 3.1 安装配置相关环境
 - 相关包安装
 ```python
@@ -266,12 +266,12 @@ G = nx.star_graph(7)
 pagerank = nx.pagerank(                             # 迭代的计算PR值
   G,                                                # 有向图，无向图会转为双向图
   alpha=0.85,                                       # 浮点型，阻尼参数，默认0.85
-  personalization=None,                             # 字典形式，自定义节点的PR值分配，默认为均匀分配
+  personalization=None,                             # 是否开启Personalized PageRank，随机传送至指定节点集合的概率更高或更低
   max_iter=100,                                     # 最大迭代次数
   tol=1e-06,                                        # 迭代阈值，停止迭代的差值
   nstart=None,                                      # 自定义PR值初值
   weight='weight',                                  # 权重
-  dangling=None,
+  dangling=None,                                    # Dead End死胡同节点
   )
 ```
 ### 幂迭代算法
