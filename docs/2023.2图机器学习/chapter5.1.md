@@ -109,3 +109,101 @@ $$\mathop{\rm{minimize}}\limits_{\Phi}\qquad-{\rm{log}}{\rm{Pr}}(\{v_{i-w},\cdot
 - 不随机的自然游走：用户可能有一定倾向性，在游走过程中可以加入一定的偏向。
 
 ## 5.4 代码实战
+### 5.4.1 维基百科网页引用关联数据读取
+```python
+# 导入工具包
+import networkx as nx
+import pandas as pd
+import numpy as np
+import random
+from tqdm import tqdm
+# 数据可视化
+import matplotlib.pyplot as plt
+%matplotlib inline
+plt.rcParams['font.sans-serif']=['SimHei']      # 用来正常显示中文标签  
+plt.rcParams['axes.unicode_minus']=False        # 用来正常显示负号
+# 读取tsv文件
+df = pd.read_csv("seealsology-data.tsv", sep = "\t")
+```
+### 5.4.2 生成随机游走序列
+- 输入起始节点和路径长度，生成随机游走节点序列
+```python
+def get_randomwalk(node, path_length):
+    random_walk = [node]
+    for i in range(path_length-1):
+        # 汇总邻接节点
+        temp = list(G.neighbors(node))
+        temp = list(set(temp) - set(random_walk))    
+        if len(temp) == 0:
+            break
+        # 从邻接节点中随机选择下一个节点
+        random_node = random.choice(temp)
+        random_walk.append(random_node)
+        node = random_node
+    return random_walk
+```
+- 获取随机游走序列
+```python
+gamma = 10                                  # 每个节点作为起始点生成随机游走序列个数
+walk_length = 5                             # 随机游走序列最大长度
+
+random_walks = []
+for n in tqdm(all_nodes):                   # 遍历每个节点
+    for i in range(gamma):                  # 每个节点作为起始点生成gamma个随机游走序列
+        random_walks.append(get_randomwalk(n, walk_length))
+```
+### 5.4.3 训练Word2Vec模型
+- 训练DeepWalk就等同于训练Word2Vec
+```python
+from gensim.models import Word2Vec          # 自然语言处理
+model = Word2Vec(vector_size=256,           # Embedding维数
+                 window=4,                  # 窗口宽度
+                 sg=1,                      # Skip-Gram
+                 hs=0,                      # 不加分层softmax
+                 negative=10,               # 负采样
+                 alpha=0.03,                # 初始学习率
+                 min_alpha=0.0007,          # 最小学习率
+                 seed=14                    # 随机数种子
+                )
+# 用随机游走序列构建词汇表
+model.build_vocab(random_walks, progress_per=2)
+# 模型训练（耗时1分钟左右）
+model.train(random_walks, total_examples=model.corpus_count, epochs=50, report_delay=1)
+```
+- 查看结果
+```python
+# 查看某个节点的Embedding
+model.wv.get_vector('random forest').shape
+model.wv.get_vector('random forest')
+# 找相似词语
+model.wv.similar_by_word('decision tree')
+```
+
+### 5.4.4 降维可视化
+- 将Embedding用PCA降维到2维
+```python
+X = model.wv.vectors
+from sklearn.decomposition import PCA
+pca = PCA(n_components=2)
+embed_2d = pca.fit_transform(X)
+```
+- 将Embedding用TSNE降维到2维
+```python
+from sklearn.manifold import TSNE
+tsne = TSNE(n_components=2, n_iter=1000)
+embed_2d = tsne.fit_transform(X)
+```
+- 作图
+```python
+plt.figure(figsize=(14,14))
+plt.scatter(embed_2d[:, 0], embed_2d[:, 1])
+plt.show()
+```
+
+## 5.5 本章总结
+本章主要对DeepWalk文章进行精读，主要包括：
+- Word2Vec思想的借鉴
+- 随机游走序列的原理
+- 图嵌入的理论支撑
+- DeepWalk算法伪代码
+- 维基百科网页引用代码实战
