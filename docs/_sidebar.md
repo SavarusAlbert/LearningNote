@@ -9,4 +9,4 @@
             - [DeepWalk论文精读](2023.2图机器学习/chapter5.1.md)
             - [Node2Vec论文精读](2023.2图机器学习/chapter5.2.md)
         - [chapter06 PageRank](2023.2图机器学习/chapter6.md)
-        
+        - [chapter07 半监督节点分类](2023.2图机器学习/chapter7.md)
