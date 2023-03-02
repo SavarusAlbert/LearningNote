@@ -10,3 +10,8 @@
             - [Node2Vec论文精读](2023.2图机器学习/chapter5.2.md)
         - [chapter06 PageRank](2023.2图机器学习/chapter6.md)
         - [chapter07 半监督节点分类](2023.2图机器学习/chapter7.md)
+        - [chapter08 图神经网络概述](2023.2图机器学习/chapter8.md)
+        - [chapter09 图神经网络的表示能力](2023.2图机器学习/chapter9.md)
+        - [chapter10 图卷积神经网络GCN](2023.2图机器学习/chapter10.md)
+        - [chapter11 图神经网络GraphSAGE](2023.2图机器学习/chapter11.md)
+        - [chapter12 图神经网络GAT](2023.2图机器学习/chapter12.md)
