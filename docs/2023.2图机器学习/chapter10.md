@@ -1,1 +1,1 @@
-# Chapter10 图卷积神经网络GCN
+# Chapter10 GCN、GraphSAGE和GAT

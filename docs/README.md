@@ -12,7 +12,9 @@ Datawhale组队学习笔记。
     - chapter04 图嵌入表示
     - chapter05 DeepWalk、Node2Vec论文精读
     - chapter06 PageRank
-
+    - chapter07 半监督节点分类
+    - chapter08-09 图神经网络概述
+    - chapter10-12 GCN、GraphSAGE和GAT
 
 ## 学习资料
 - 2023.2期：[CS224W图机器学习-同济子豪兄](https://github.com/TommyZihao/zihao_course/tree/main/CS224W)
