@@ -5,10 +5,13 @@
         - [chapter02 图的基本表示和特征工程](2023.2图机器学习/chapter2.md)
         - [chapter03 NetworkX工具包实战](2023.2图机器学习/chapter3.md)
         - [chapter04 图嵌入表示](2023.2图机器学习/chapter4.md)
-        - chapter05 论文精读
+        - chapter05 图表示学习论文精读
             - [DeepWalk论文精读](2023.2图机器学习/chapter5.1.md)
             - [Node2Vec论文精读](2023.2图机器学习/chapter5.2.md)
         - [chapter06 PageRank](2023.2图机器学习/chapter6.md)
         - [chapter07 半监督节点分类](2023.2图机器学习/chapter7.md)
         - [chapter08-09 图神经网络概述](2023.2图机器学习/chapter8.md)
-        - [chapter10-12 GCN、GraphSAGE和GAT](2023.2图机器学习/chapter10.md)
+        - chapter10-12 图神经网络论文精读
+            - [GCN论文精读](2023.2图机器学习/chapter10.md)
+            - [GraphSAGE论文精读](2023.2图机器学习/chapter11.md)
+            - [GAT论文精读](2023.2图机器学习/chapter12.md)
