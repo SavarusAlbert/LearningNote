@@ -31,7 +31,7 @@
 2: **for** $k=1{\cdots}K$ **do**&emsp;&emsp;($K$层神经网络)  
 3: &emsp;&emsp;**for** $v\in\mathcal{V}$ **do**&emsp;&emsp;(遍历每个节点 $v$)    
 4: &emsp;&emsp;&emsp;&emsp;$h_{\mathcal{N}(v)}^k\leftarrow{\rm{AGGREGATE}_k}(\{h_u^{k-1},{\forall}u\in\mathcal{N}(v)\})$;&emsp;&emsp;(聚合所有邻域节点前一层嵌入)  
-5: &emsp;&emsp;&emsp;&emsp;$h_v^k\leftarrow\sigma\left(\mathbf{W}^k\cdot{\rm{CONCAT}}(h_v^{k-1},h_{\mathcal{N}(v)}^k)\right)$&emsp;&emsp;(自注意力操作及模型参数训练)  
+5: &emsp;&emsp;&emsp;&emsp;$h_v^k\leftarrow\sigma\left(\mathbf{W}^k\cdot{\rm{CONCAT}}(h_v^{k-1},h_{\mathcal{N}(v)}^k)\right)$&emsp;&emsp;(残差连接及模型参数训练)  
 6: &emsp;&emsp;**end**  
 7: &emsp;&emsp;$h_v^k{\leftarrow}h_v^k/||h_v^k||_2,{\forall}v\in\mathcal{V}$&emsp;&emsp;(归一化)  
 8: **end**  
@@ -59,7 +59,7 @@
 9: **for** $k=1{\cdots}K$ **do**&emsp;&emsp;($K$层神经网络)  
 10: &emsp;&emsp;**for** $u\in\mathcal{B}^k$ **do**&emsp;&emsp;(遍历每个节点 $u$)  
 11: &emsp;&emsp;&emsp;&emsp;$h_{\mathcal{N}(u)}^k\leftarrow{\rm{AGGREGATE}}_k(\{h_{u^\prime}^{k-1},{\forall}u^\prime\in\mathcal{N}_k(u)\})$;&emsp;&emsp;(聚合每个点和其邻点嵌入)  
-12: &emsp;&emsp;&emsp;&emsp;$h_u^k\leftarrow\sigma(\mathbf{W}^k\cdot{\rm{CONCAT}}(h_u^{k-1},h_{\mathcal{N}(u)}^k))$;&emsp;&emsp;(自注意力操作及模型参数训练)  
+12: &emsp;&emsp;&emsp;&emsp;$h_u^k\leftarrow\sigma(\mathbf{W}^k\cdot{\rm{CONCAT}}(h_u^{k-1},h_{\mathcal{N}(u)}^k))$;&emsp;&emsp;(残差连接及模型参数训练)  
 13: &emsp;&emsp;&emsp;&emsp;$h_u^k{\leftarrow}h_u^k/||h_u^k||_2$;&emsp;&emsp;(归一化)  
 14: &emsp;&emsp;**end**  
 15: **end**  
