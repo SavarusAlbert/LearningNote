@@ -15,3 +15,5 @@
             - [GCN论文精读](2023.2图机器学习/chapter10.md)
             - [GraphSAGE论文精读](2023.2图机器学习/chapter11.md)
             - [GAT论文精读](2023.2图机器学习/chapter12.md)
+    - [2023.5期：Hugging LLM]
+        - [chapter01 ChatGPT基础操作](2023.5Hugging_LLM/chapter1.md)
