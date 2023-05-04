@@ -15,6 +15,8 @@ Datawhale组队学习笔记。
     - chapter07 半监督节点分类
     - chapter08-09 图神经网络概述
     - chapter10-12 GCN、GraphSAGE和GAT
+- 2023.5期：Hugging LLM
+    - chapter01 ChatGPT基础操作
 
 ## 学习资料
 - 2023.2期：[CS224W图机器学习-同济子豪兄](https://github.com/TommyZihao/zihao_course/tree/main/CS224W)
